@@ -62,7 +62,7 @@ const Open = () => {
         </div>
       </div>
       {/* tools */}
-      <Messages />
+      {selected === "inbox" && <Messages selected={selected} />}
     </>
   );
 };
