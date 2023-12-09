@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import MessageList from "./MessageLists";
 import Conversation from "./Conversation";
+import Header from "./ConversationHeader";
 
 // Create a new Date object
 const currentDate = new Date();
@@ -33,7 +34,8 @@ const minutes = currentDate.getMinutes();
 // Format the date string
 const formattedDate = `${month}, ${day}, ${year} ${hours}:${minutes}`;
 
-const Messages = ({ selected }) => {
+const Messages = (props) => {
+  const { selected, setSelected, setImagesVisible } = props;
   const [messagesData, setMessagesData] = useState(null);
   const [conversation, setConversation] = useState(null);
 
@@ -56,9 +58,17 @@ const Messages = ({ selected }) => {
   }, [selected]);
 
   return (
-    <div className="fixed border-2 rounded bottom-32 right-8 py-5 px-10 w-[734px] h-4/6 overflow-auto">
+    <div className="fixed border-2 rounded bottom-32 right-8 py-5 px-6 w-[734px] h-4/6 overflow-auto">
       {conversation ? (
-        <Conversation conversation={conversation} />
+        <>
+          <Header
+            setSelected={setSelected}
+            setImagesVisible={setImagesVisible}
+            conversation={conversation}
+            setConversation={setConversation}
+          />
+          <Conversation conversation={conversation} />
+        </>
       ) : (
         <MessageList
           messagesData={messagesData}
