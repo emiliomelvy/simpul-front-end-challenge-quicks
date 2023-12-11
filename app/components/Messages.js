@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import MessageList from "./MessageLists";
 import Conversation from "./Conversation";
 import Header from "./ConversationHeader";
+import Divider from "./Divider";
 
 // Create a new Date object
 const currentDate = new Date();
@@ -32,7 +33,9 @@ const hours = currentDate.getHours();
 const minutes = currentDate.getMinutes();
 
 // Format the date string
-const formattedDate = `${month}, ${day}, ${year} ${hours}:${minutes}`;
+const formattedDate = `${month}, ${day}, ${year} ${hours}:${String(
+  minutes
+).padStart(2, "0")}`;
 
 const Messages = (props) => {
   const { selected, setSelected, setImagesVisible } = props;
@@ -41,7 +44,9 @@ const Messages = (props) => {
 
   const handleMessage = (id) => {
     fetch(
-      `https://jsonplaceholder.typicode.com/comments?postId=${id}&_start=${id}&_limit=${id}`
+      `https://jsonplaceholder.typicode.com/comments?postId=${id}&_start=${
+        id > 4 ? 1 : id
+      }&_limit=${id}`
     )
       .then((response) => response.json())
       .then((json) => {
@@ -67,6 +72,7 @@ const Messages = (props) => {
             conversation={conversation}
             setConversation={setConversation}
           />
+          <Divider />
           <Conversation conversation={conversation} />
         </>
       ) : (
