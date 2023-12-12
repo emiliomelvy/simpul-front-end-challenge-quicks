@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Messages from "./Messages";
+import Task from "./Task/TaskContainer";
 import openSvg from "../../public/open.svg";
 import taskSvg from "../../public/task.svg";
 import inboxSvg from "../../public/inbox.svg";
@@ -69,6 +70,7 @@ const Open = () => {
           setImagesVisible={setImagesVisible}
         />
       )}
+      {selected === "task" && <Task />}
     </>
   );
 };
