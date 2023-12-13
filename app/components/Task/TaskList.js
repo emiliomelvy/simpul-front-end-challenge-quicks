@@ -153,7 +153,7 @@ const TaskList = () => {
                       handleCheckbox(item.id);
                     }}
                   />
-                  <div className="text-gray-2 flex flex-col gap-4">
+                  <div className="text-gray-2 flex flex-col gap-4 break-words w-[350px]">
                     <div
                       className={`font-medium ${
                         item.done && "line-through text-gray-3"
