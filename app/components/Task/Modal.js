@@ -16,6 +16,9 @@ const Modal = ({ setShowModal, task, setTask }) => {
       date: tempTask.date,
       description: tempTask.description,
       done: false,
+      show: true,
+      edited: false,
+      option: false,
     };
 
     const updatedTask = [...task, newTask];
