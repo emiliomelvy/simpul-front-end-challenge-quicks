@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const Modal = ({ showModal, setShowModal, task, setTask }) => {
+const Modal = ({ setShowModal, task, setTask }) => {
   const [tempTask, setTempTask] = useState({
     task: "",
     date: "",
@@ -15,10 +15,18 @@ const Modal = ({ showModal, setShowModal, task, setTask }) => {
       task: tempTask.task,
       date: tempTask.date,
       description: tempTask.description,
+      done: false,
     };
 
-    setTask([...task, newTask]);
+    const updatedTask = [...task, newTask];
+
+    setTask(updatedTask);
     setShowModal(false);
+    localStorage.setItem("tasks", JSON.stringify(updatedTask));
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") handleTask();
   };
 
   return (
@@ -51,6 +59,7 @@ const Modal = ({ showModal, setShowModal, task, setTask }) => {
             onChange={(e) =>
               setTempTask({ ...tempTask, description: e.target.value })
             }
+            onKeyDown={handleKeyDown}
           />
         </div>
         <div className="flex justify-between mt-1.5">

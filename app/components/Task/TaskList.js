@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Modal from "./Modal";
 import arrow from "../../../public/arrow.svg";
@@ -11,6 +11,26 @@ import pen from "../../../public/pen.svg";
 const TaskList = () => {
   const [task, setTask] = useState([]);
   const [showModal, setShowModal] = useState(false);
+
+  const handleCheckbox = (id) => {
+    setTask((prevTasks) => {
+      const updatedTasks = prevTasks.map((item) => {
+        if (item.id === id) {
+          return { ...item, done: !item.done };
+        }
+        return item;
+      });
+
+      localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+      return updatedTasks;
+    });
+  };
+
+  useEffect(() => {
+    const item = JSON.parse(localStorage.getItem("tasks"));
+
+    if (item) setTask(item);
+  }, []);
 
   return (
     <>
@@ -30,9 +50,18 @@ const TaskList = () => {
           <div className={`pt-5 border-b`} key={item.id}>
             <div className="flex justify-between">
               <div className="flex gap-3">
-                <input type="checkbox" className="place-self-start mt-2" />
+                <input
+                  type="checkbox"
+                  className="place-self-start mt-2"
+                  checked={item.done}
+                  onChange={() => {
+                    handleCheckbox(item.id);
+                  }}
+                />
                 <div className="text-gray-2 flex flex-col gap-4">
-                  <div className="font-medium">{item.task}</div>
+                  <div className={`font-medium ${item.done && "line-through"}`}>
+                    {item.task}
+                  </div>
                 </div>
               </div>
               <div className="flex gap-3 items-center">
@@ -73,12 +102,7 @@ const TaskList = () => {
       })}
 
       {showModal && (
-        <Modal
-          showModal={showModal}
-          setShowModal={setShowModal}
-          task={task}
-          setTask={setTask}
-        />
+        <Modal setShowModal={setShowModal} task={task} setTask={setTask} />
       )}
     </>
   );
