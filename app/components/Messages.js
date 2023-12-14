@@ -41,6 +41,7 @@ const Messages = (props) => {
   const { selected, setSelected, setImagesVisible } = props;
   const [messagesData, setMessagesData] = useState(null);
   const [conversation, setConversation] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleMessage = (id) => {
     fetch(
@@ -54,13 +55,23 @@ const Messages = (props) => {
       });
   };
 
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
   useEffect(() => {
     if (selected === "inbox") {
-      fetch("https://jsonplaceholder.typicode.com/comments?postId=1")
+      let url = "https://jsonplaceholder.typicode.com/comments?postId=1";
+
+      if (searchQuery) {
+        url += `&q=${searchQuery}`;
+      }
+
+      fetch(url)
         .then((response) => response.json())
         .then((json) => setMessagesData(json));
     }
-  }, [selected]);
+  }, [selected, searchQuery]);
 
   return (
     <div className="fixed border-2 rounded bottom-32 right-8 py-5 px-6 w-[734px] h-4/6 overflow-auto">
@@ -80,6 +91,8 @@ const Messages = (props) => {
           messagesData={messagesData}
           formattedDate={formattedDate}
           handleMessage={handleMessage}
+          searchQuery={searchQuery}
+          handleSearch={handleSearch}
         />
       )}
     </div>
