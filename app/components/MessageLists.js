@@ -75,7 +75,7 @@ const List = ({
           );
         })}
       {!filteredMessages && (
-        <div className="flex flex-col justify-center items-center mt-[30%]">
+        <div className="flex flex-col justify-center items-center mt-[20%]">
           <span className="loader"></span>
           <div className="text-gray-2 pt-4">Loading Chats ...</div>
         </div>
